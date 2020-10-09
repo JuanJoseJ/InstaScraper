@@ -1,13 +1,13 @@
 from selenium.webdriver import Chrome
 from time import sleep
-import cookieManage
+import functionManage as function
 
 browser = Chrome()
 browser.get("https://www.instagram.com/")
 archivoCookies = "cookies.pkl"
 
 try: #Intento usar cookies existentes
-    cookieManage.use_cookies(browser, archivoCookies)
+    function.use_cookies(browser, archivoCookies)
     print("Se encontraron cookies guardadas")
     browser.get("https://www.instagram.com/")
 except: #Inicio seción si no hay cookies
@@ -23,21 +23,21 @@ except: #Inicio seción si no hay cookies
     sleep(2)
 
     #Presiono el botón de mantener seción iniciada
-    guardar=browser.find_element_by_xpath("//button[@type='button']")
-    guardar.click()
-    sleep(1)
-    
+    function.pres_button_xpath(browser, "//button[@type='button']")
+
+
     #Guardo cookies
     print("Se creó un nuevo archivo de cookies")
-    cookieManage.save_cookies(browser, archivoCookies)
+    function.save_cookies(browser, archivoCookies)
 
 #Presiono el boton de no querer notificaciones
-notificaciones=browser.find_element_by_xpath("//button[@class='aOOlW   HoLwm ']")
-notificaciones.click()
-sleep(1)
+function.pres_button_xpath(browser, "//button[@class='aOOlW   HoLwm ']")
 
-# buscar=browser.find_element_by_xpath("//input[@class='XTCLo x3qfX ']")
-# buscar.send_keys("#halloween")
-# sleep(1)
+tag = "halloween"
+buscar=browser.find_element_by_xpath("//input[@class='XTCLo x3qfX ']")
+buscar.send_keys("#"+tag)
+sleep(1)
+tag=browser.find_element_by_xpath("//a[@href='/explore/tags/"+tag+"/']")
+sleep(1)
 # buscar.submit()
 
